@@ -59,11 +59,12 @@ LABEL_START:			; <--- 从这里开始 *************
 	mov	dword [_dwMCRNumber], 0
 .MemChkOK:
 
-	; 下面在 A 盘的根目录寻找 KERNEL.BIN
-	mov	word [wSectorNo], SectorNoOfRootDirectory	
 	xor	ah, ah	; ┓
 	xor	dl, dl	; ┣ 软驱复位
 	int	13h	; ┛
+	
+	; 下面在 A 盘的根目录寻找 KERNEL.BIN
+	mov	word [wSectorNo], SectorNoOfRootDirectory	
 LABEL_SEARCH_IN_ROOT_DIR_BEGIN:
 	cmp	word [wRootDirSizeForLoop], 0	; ┓
 	jz	LABEL_NO_KERNELBIN		; ┣ 判断根目录区是不是已经读完, 如果读完表示没有找到 KERNEL.BIN
